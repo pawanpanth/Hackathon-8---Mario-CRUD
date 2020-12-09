@@ -48,14 +48,14 @@ app.patch('/mario/:id',async (req,res)=>{
         const existingMarioDoc = await new marioModel().findById(id);
         if(isNullOrUndefined(newMario.name) && isNullOrUndefined(newMario.weight))
         {
-            res.status(400).send({message: "Both name or weight is missing"});
+            res.status(400).send({message: "both name or weight is missing"});
 
         }
         else{
-            if(newMario.name){
+            if(!isNullorUndefined(newMario.name)){
                 existingMarioDoc.name = newMario.name;
             }
-            if(newMario.weight){
+            if(!isNullorUndefined(newMario.weight)){
                 existingMarioDoc.weight = newMario.weight;
             }
             await existingMarioDoc.save();
