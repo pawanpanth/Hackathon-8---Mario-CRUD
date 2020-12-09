@@ -30,7 +30,7 @@ app.post('/mario',async (req,res)=>{
     const newMario = req.body;
     if(isNullOrUndefined(newMario.name)|| isNullOrUndefined(newMario.weight))
     {
-        res.status(400).send({message: "either name or weight is missing"});
+        res.status(400).send({message: 'either name or weight is missing'});
 
     }
     else{
@@ -41,7 +41,7 @@ app.post('/mario',async (req,res)=>{
 });
 
 
-app.patch('/mario:id',async (req,res)=>{
+app.patch('/mario/:id',async (req,res)=>{
     const id = req.params.id;
     const newMario = req.body;
     try{
