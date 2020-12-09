@@ -19,7 +19,7 @@ app.get('/mario',async (req,res)=>{
 app.get('/mario/:id',async (req,res)=>{
     const id = req.params.id;
     try{
-        res.send(await marioModel.findById({_id: id}));
+        res.send(await marioModel.findById(id));
     }
     catch(e){
         res.status(400).send({mesage: e.message});
@@ -68,7 +68,7 @@ app.patch('/mario:id',async (req,res)=>{
 app.delete('/mario/:id',async (req,res)=>{
     const id = req.params.id;
     try{
-        await marioModel.findById({_id: id});
+        await marioModel.findById(id);
         await marioModel.deleteOne({_id: id});
         res.send({message: "character deleted"});
     }
