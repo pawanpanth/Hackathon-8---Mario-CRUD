@@ -58,9 +58,10 @@ app.patch('/mario/:id',async (req,res)=>{
             if(!isNullorUndefined(newMario.weight)){
                 existingMarioDoc.weight = newMario.weight;
             }
-            await existingMarioDoc.save();
-            res.send(existingMarioDoc);
+            
         }
+        await existingMarioDoc.save();
+        res.send(existingMarioDoc);
     }catch(error){
         res.status(400).send({message: error.message});
     }
