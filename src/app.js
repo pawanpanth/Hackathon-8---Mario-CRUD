@@ -19,10 +19,11 @@ app.get('/mario',async (req,res)=>{
 app.get('/mario/:id',async (req,res)=>{
     const id = req.params.id;
     try{
+        
         res.send(await marioModel.findById(id));
     }
-    catch(e){
-        res.status(400).send({message: e.message});
+    catch(error){
+        res.status(400).send({message: error.message});
     }
 });
 const isNullOrUndefined = (val)=> val === null|| val === undefined;
@@ -48,7 +49,7 @@ app.patch('/mario/:id',async (req,res)=>{
         const existingMarioDoc = await marioModel.findById(id);
         if(isNullOrUndefined(newMario.name) && isNullOrUndefined(newMario.weight))
         {
-            res.status(400).send({message: "both name or weight is missing"});
+            res.status(400).send({message: 'both name or weight is missing'});
 
         }
         else{
@@ -76,8 +77,8 @@ app.delete('/mario/:id',async (req,res)=>{
         await marioModel.deleteOne({_id: id});
         res.send({message: 'character deleted'});
     }
-    catch(e){
-        res.status(400).send({message: e.message});
+    catch(error){
+        res.status(400).send({message: error.message});
     }
 });
 
