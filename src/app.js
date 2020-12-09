@@ -70,7 +70,7 @@ app.delete('/mario/:id',async (req,res)=>{
     try{
         await marioModel.findById(id);
         await marioModel.deleteOne({_id: id});
-        res.send({message: "character deleted"});
+        res.send({message: 'character deleted'});
     }
     catch(e){
         res.status(400).send({message: e.message});
