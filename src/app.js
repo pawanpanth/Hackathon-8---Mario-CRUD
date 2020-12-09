@@ -22,7 +22,7 @@ app.get('/mario/:id',async (req,res)=>{
         res.send(await marioModel.findById(id));
     }
     catch(e){
-        res.status(400).send({mesage: e.message});
+        res.status(400).send({message: e.message});
     }
 });
 const isNullOrUndefined = val=> val === null|| val === undefined;
