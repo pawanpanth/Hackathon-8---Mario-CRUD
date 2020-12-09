@@ -36,7 +36,7 @@ app.post('/mario',async (req,res)=>{
     else{
         const newMarioDocument = new marioModel(newMario);
         await newMarioDocument.save();
-        res.status(201).send();
+        res.status(201).send(newMarioDocument);
     }
 });
 
