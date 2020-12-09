@@ -25,7 +25,7 @@ app.get('/mario/:id',async (req,res)=>{
         res.status(400).send({message: e.message});
     }
 });
-const isNullOrUndefined = val=> val === null|| val === undefined;
+const isNullOrUndefined = (val)=> val === null|| val === undefined;
 app.post('/mario',async (req,res)=>{
     const newMario = req.body;
     if(isNullOrUndefined(newMario.name)|| isNullOrUndefined(newMario.weight))
@@ -52,19 +52,22 @@ app.patch('/mario/:id',async (req,res)=>{
 
         }
         else{
-            if(!isNullorUndefined(newMario.name)){
+
+            if(!isNullOrUndefined(newMario.name)){
                 existingMarioDoc.name = newMario.name;
             }
-            if(!isNullorUndefined(newMario.weight)){
+            if(!isNullOrUndefined(newMario.weight)){
                 existingMarioDoc.weight = newMario.weight;
             }
+            await existingMarioDoc.save();
+            res.send(existingMarioDoc);
             
         }
-        await existingMarioDoc.save();
-        res.send(existingMarioDoc);
-    }catch(error){
-        res.status(400).send({message: error.message});
+       
     }
+    catch(error){
+        res.status(400).send({message: error.message});}
+    
 });
 app.delete('/mario/:id',async (req,res)=>{
     const id = req.params.id;
