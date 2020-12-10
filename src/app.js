@@ -71,15 +71,15 @@ app.patch('/mario/:id',async (req,res)=>{
     }
     
 });
-app.patch('/mario/:id', async(req, res) => {
-    const id = req.params.id;
-    try {
-        res.send(await marioModel.findById(id));
-    }
-    catch(err) {
-        res.status(400).send({ message: err.message });
-    }
-});
+// app.patch('/mario/:id', async(req, res) => {
+//     const id = req.params.id;
+//     try {
+//         res.send(await marioModel.findById(id));
+//     }
+//     catch(err) {
+//         res.status(400).send({ message: err.message });
+//     }
+// });
 app.delete('/mario/:id',async (req,res)=>{
     const id = req.params.id;
     try{
