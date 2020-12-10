@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const bodyParser = require("body-parser");
 const marioModel = require('./models/marioChar');
+const { get } = require('mongoose');
 
 // Middlewares
 app.use(express.urlencoded());
@@ -22,11 +23,11 @@ app.get('/mario/:id',async (req,res)=>{
         
         res.send(await marioModel.findById(id));
     }
-    catch(err){
-        res.status(400).send({message: err.message});
+    catch(error){
+        res.status(400).send({message: error.message});
     }
 });
-const isNullOrUndefined = val => val === null|| val === undefined;
+const isNullOrUndefined = (val)=> val === null|| val === undefined;
 app.post('/mario',async (req,res)=>{
     const newMario = req.body;
     if(isNullOrUndefined(newMario.name)|| isNullOrUndefined(newMario.weight))
@@ -66,20 +67,22 @@ app.patch('/mario/:id',async (req,res)=>{
         }
        
     }
-    catch(err){
-        res.status(400).send({message: err.message});
+    catch(error){
+        res.status(400).send({message: error.message});
     }
+   
     
 });
-// app.patch('/mario/:id', async(req, res) => {
-//     const id = req.params.id;
-//     try {
-//         res.send(await marioModel.findById(id));
-//     }
-//     catch(err) {
-//         res.status(400).send({ message: err.message });
-//     }
-// });
+
+app.patch('/mario/:id', async(req, res) => {
+    const id = req.params.id;
+    try {
+        res.send(await marioModel.findById(id));
+    }
+    catch(err) {
+        res.status(400).send({ message: err.message });
+    }
+});
 app.delete('/mario/:id',async (req,res)=>{
     const id = req.params.id;
     try{
