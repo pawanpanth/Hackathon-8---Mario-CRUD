@@ -12,13 +12,12 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 // your code goes here
-app.get('/mario', async(req, res) => {
+
+app.get('/mario',async (req,res)=>{
     res.send(await marioModel.find());
 });
-
-app.get('/mario/:id', async(req, res) => {
+app.get('/mario/:id',async (req,res)=>{
     const id = req.params.id;
-<<<<<<< HEAD
     try{
         await marioModel.findById(id,function(err, doc){
             if(err){
@@ -32,76 +31,68 @@ app.get('/mario/:id', async(req, res) => {
             res.send(doc);
         });
         //res.send(await marioModel.findById(id));
-=======
-    try {
-        res.send(await marioModel.findById(id));
->>>>>>> 330c4a5aa34b251258c19439b51f79874aa00d0c
     }
-    catch(err) {
-        res.status(400).send({ message: err.message });
+    catch(error){
+        res.status(400).send({message: error.message});
     }
 });
-
-const isNullorUndefined = val => val === null || val === undefined;
-
-app.post('/mario', async(req, res) => {
+const isNullOrUndefined = (val)=> val === null|| val === undefined;
+app.post('/mario',async (req,res)=>{
     const newMario = req.body;
-    if(isNullorUndefined(newMario.name) || isNullorUndefined(newMario.weight)) {
-        res.status(400).send({ message: 'either name or weight is missing' })
-    } else {
+    if(isNullOrUndefined(newMario.name)|| isNullOrUndefined(newMario.weight))
+    {
+        res.status(400).send({message: 'either name or weight is missing'});
+
+    }
+    else{
         const newMarioDocument = new marioModel(newMario);
         await newMarioDocument.save();
         res.status(201).send(newMarioDocument);
     }
 });
 
-app.patch('/mario/:id', async(req, res) => {
+
+app.patch('/mario/:id',async (req,res)=>{
     const id = req.params.id;
     const newMario = req.body;
-    try {
-        const data = await marioModel.findById(id);
-        if(isNullorUndefined(newMario.name) && isNullorUndefined(newMario.weight)) {
-            res.status(400).send({ message: 'both name or weight is missing' })
-        } else {
-            if(!isNullorUndefined(newMario.name)) {
-                data.name = newMario.name;
-            }
-            if(!isNullorUndefined(newMario.weight)) {
-                data.weight = newMario.weight;
-            }
-            await data.save();
-            res.send(data);
+    try{
+        const existingMarioDoc = await marioModel.findById(id);
+        if(isNullOrUndefined(newMario.name) && isNullOrUndefined(newMario.weight))
+        {
+            res.status(400).send({message: 'both name or weight is missing'});
+
         }
+        else{
+
+            if(!isNullOrUndefined(newMario.name)){
+                existingMarioDoc.name = newMario.name;
+            }
+            if(!isNullOrUndefined(newMario.weight)){
+                existingMarioDoc.weight = newMario.weight;
+            }
+            await existingMarioDoc.save();
+            res.send(existingMarioDoc);
+            
+        }
+       
     }
-    catch(err) {
-        res.status(400).send({ message: err.message });
+    catch(error){
+        res.status(400).send({message: error.message});
     }
+   
+    
 });
 
-<<<<<<< HEAD
 
 app.delete('/mario/:id',async (req,res)=>{
-=======
-app.patch('/mario/:id', async(req, res) => {
     const id = req.params.id;
-    try {
-        res.send(await marioModel.findById(id));
-    }
-    catch(err) {
-        res.status(400).send({ message: err.message });
-    }
-});
-
-app.delete('/mario/:id', async(req, res) => {
->>>>>>> 330c4a5aa34b251258c19439b51f79874aa00d0c
-    const id = req.params.id;
-    try {
+    try{
         await marioModel.findById(id);
-        await marioModel.deleteOne({ _id: id });
-        res.send({ message: 'character deleted' });
+        await marioModel.deleteOne({_id: id});
+        res.send({message: 'character deleted'});
     }
-    catch(err) {
-        res.status(400).send({ message: err.message }); 
+    catch(error){
+        res.status(400).send({message: error.message});
     }
 });
 
