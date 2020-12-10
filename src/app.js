@@ -2,7 +2,6 @@ const express = require('express')
 const app = express()
 const bodyParser = require("body-parser");
 const marioModel = require('./models/marioChar');
-const { get } = require('mongoose');
 
 // Middlewares
 app.use(express.urlencoded());
@@ -20,8 +19,18 @@ app.get('/mario',async (req,res)=>{
 app.get('/mario/:id',async (req,res)=>{
     const id = req.params.id;
     try{
-        
-        res.send(await marioModel.findById(id));
+        await marioModel.findById(id,function(err, doc){
+            if(err){
+                res.status(400).send({message: err.message});
+            }
+            else if(doc === null)
+            {
+                res.status(400).send({message: "bad request"});
+            }
+            else
+            res.send(doc);
+        });
+        //res.send(await marioModel.findById(id));
     }
     catch(error){
         res.status(400).send({message: error.message});
@@ -74,15 +83,7 @@ app.patch('/mario/:id',async (req,res)=>{
     
 });
 
-app.patch('/mario/:id', async(req, res) => {
-    const id = req.params.id;
-    try {
-        res.send(await marioModel.findById(id));
-    }
-    catch(err) {
-        res.status(400).send({ message: err.message });
-    }
-});
+
 app.delete('/mario/:id',async (req,res)=>{
     const id = req.params.id;
     try{
